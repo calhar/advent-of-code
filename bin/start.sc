@@ -16,6 +16,6 @@ object Start extends App {
   val dir = new java.io.File(subDir)
 
   dir.mkdirs
-  new java.io.File(dir.getAbsolutePath + "/code.sc").createNewFile
-  new java.io.File(dir.getAbsolutePath + "/input.txt").createNewFile
+  new java.io.File(dir.getPath + "/code.sc").createNewFile
+  new java.io.File(dir.getPath + "/input.txt").createNewFile
 }
