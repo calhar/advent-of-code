@@ -1,0 +1,3 @@
+Went a little too verbose and classical recursion on this one, not really in
+a functional mindset, and definitely not code golfing it. Forgot about zip as
+well, which is pretty shocking.
