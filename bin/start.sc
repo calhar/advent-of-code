@@ -4,10 +4,14 @@ import java.time._
 import java.time.format.DateTimeFormatter
 
 object Start extends App {
-  val adventZone = ZoneId.of("America/New_York")
-  val adventTime = LocalDateTime.now(adventZone)
+  val subDir = if (args.length == 0) {
+    val adventZone = ZoneId.of("America/New_York")
+    val adventTime = LocalDateTime.now(adventZone)
 
-  val subDir = adventTime.format(DateTimeFormatter.ofPattern("yyyy/dd"))
+    adventTime.format(DateTimeFormatter.ofPattern("yyyy/dd"))
+  } else {
+    args(0)
+  }
 
   val dir = new java.io.File(subDir)
 
