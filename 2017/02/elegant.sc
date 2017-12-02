@@ -2,7 +2,7 @@ object Checksum {
 
   def run(data: List[List[Int]]) {
     /**
-     * So the elegant way to solve these two problems is to obtain the 
+     * So an elegant way to solve these two problems is to obtain the 
      * cross product of each number series with itself excluding identical
      * values and perform the appropriate operation
      * 
@@ -16,13 +16,16 @@ object Checksum {
      * restriction to the for comprehension so that we know we're only getting
      * a tuple (a,b) where a is divisible by b. We yield a/b and take the max
      * or head of the sequence.
+     *
+     * A more elegant solution for checksum1 though, is to map the function
+     * (row) => row.max - row.min, to each row of the input data.
      **/
-    val checksum1 = data.map((line) => 
-        (for (a <- line; b <- line if a != b) yield a - b).max)
-        .foldLeft(0)((acc, n) => acc + n)
+    val checksum1 = data.map((row) => 
+        row.max - row.min)
+        .sum
     val checksum2 = data.map((line) =>
         (for (a <- line; b <- line if a != b && a % b == 0) yield a / b).head)
-        .foldLeft(0)((acc, n) => acc + n) 
+        .sum
     println(checksum1)
     println(checksum2)
   }
