@@ -2,10 +2,12 @@ import scala.annotation.tailrec
 
 object Checksum {
   def divisibleTuple(vals: List[Int]): Tuple2[Int, Int] = {
-    def divisOuter(list: List[Int]): List[Option[Tuple2[Int, Int]]] = 
+    @tailrec
+    def divisOuter(list: List[Int], acc: List[Option[Tuple2[Int, Int]]]):
+      List[Option[Tuple2[Int, Int]]] = 
       list match {
-        case Nil => List(None)
-        case h :: xs => divisInner(h, xs) :: divisOuter(xs)
+        case Nil => acc
+        case h :: xs => divisOuter(xs, divisInner(h, xs) :: acc)
       }
     @tailrec
     def divisInner(h: Int, list: List[Int]): Option[Tuple2[Int, Int]] =
@@ -17,7 +19,7 @@ object Checksum {
       }
     
 
-    val divisible= divisOuter(vals).flatten
+    val divisible= divisOuter(vals, Nil).flatten
     divisible.head
   }
 
