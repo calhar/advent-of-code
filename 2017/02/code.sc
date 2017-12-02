@@ -1,7 +1,7 @@
 object Checksum {
   def minMaxTuple(vals: List[Int]): Tuple2[Int,Int] =
     vals.foldLeft((0, Int.MaxValue))((a:Tuple2[Int,Int], b)=>
-        (if (b > a._1) b else a._1, if (b < a._2) b else a._2))
+        (math.max(b, a._1), math.min(b, a._2)))
 
   def run(data: List[List[Int]]) {
     val checksum = data.map((line) => minMaxTuple(line))
