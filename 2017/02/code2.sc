@@ -26,7 +26,7 @@ object Checksum {
   def run(data: List[List[Int]]) {
     val checksum = data.map((line) => divisibleTuple(line))
       .map({case (max, min) => max / min})
-      .foldLeft(0)((acc, n) => acc + n)
+      .sum
     println(checksum)    
   }
 
