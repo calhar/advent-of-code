@@ -1,6 +1,6 @@
 object Checksum {
   def minMaxTuple(vals: List[Int]): Tuple2[Int,Int] =
-    vals.foldLeft((0, Int.MaxValue))((a:Tuple2[Int,Int], b)=>
+    vals.foldLeft((a(0), a(0)))((a:Tuple2[Int,Int], b)=>
         (math.min(b, a._1), math.max(b, a._2)))
 
   def run(data: List[List[Int]]) {
