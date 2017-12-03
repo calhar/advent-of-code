@@ -27,3 +27,7 @@ overhead for the ArrayBuffers should be significantly less than the (2n+1)**2
 values you need to store to keep track of the entire memory space to a given
 ring.
 
+Adding to the ArrayBuffer could be more efficient too, right now it adds a small
+number of additional ArrayBuffers every step through. More efficient would be to
+do the allocation in terms of rings. Whenever we step out a ring, allocate the
+entire next ring to the buffer.
