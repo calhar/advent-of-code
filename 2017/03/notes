@@ -4,9 +4,11 @@ solution to part 1 providing the correct answer. I'm pretty happy with the
 results.
 
 Admittedly it took me more time that I would have liked to get part 1 done,
-because apparently I can't do relatively basic maths at 9-10am on a Sunday,
-but whatever. I'm happy with my initial solution to part 1. Although it is very
-specific to the problem at hand.
+because apparently I can't do relatively basic maths on a Sunday morning,
+next time perhaps just use _ % 2 and an if rather than trying to floor and ceil
+my way around only wanting odd square roots. Regardless, I'm mostly happy with
+my initial solution to part 1. Although it is very specific to the problem at
+hand.
 
 Part 2 I'm quite pleased with the end result and while it's probably not the
 best Scala ever written and I'm sure there's a better way to handle storing and
@@ -31,3 +33,9 @@ Adding to the ArrayBuffer could be more efficient too, right now it adds a small
 number of additional ArrayBuffers every step through. More efficient would be to
 do the allocation in terms of rings. Whenever we step out a ring, allocate the
 entire next ring to the buffer.
+
+Having examined other scala solutions to the problem, I think it's clear I
+overengineered a little trying to be clever. Specifically only storing grid
+values as we're processing rather than storing in a Map[(Int, Int), Int] or
+other structure. Other solutions made interesting use of traits and case objects
+to which certainly resulted in more readable code.
