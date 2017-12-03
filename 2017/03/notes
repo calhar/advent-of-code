@@ -1,0 +1,29 @@
+Despite it taking me far too long to write the solution to part 2 due to a
+really stupid bug that I didn't think could be there due to the functional
+solution to part 1 providing the correct answer. I'm pretty happy with the
+results.
+
+Admittedly it took me more time that I would have liked to get part 1 done,
+because apparently I can't do relatively basic maths at 9-10am on a Sunday,
+but whatever. I'm happy with my initial solution to part 1. Although it is very
+specific to the problem at hand.
+
+Part 2 I'm quite pleased with the end result and while it's probably not the
+best Scala ever written and I'm sure there's a better way to handle storing and
+summing the neighbour values than ArrayBuffer[ArrayBuffer[Int]]. That aside, if
+the Int typing were removed it would work for arbitrarily large input (where
+arbitrarily large is bounded by memory and any size limits on ArrayBuffer).
+And that was my main goal when writing it. One improvement to free up memory
+would be to replace the permanent stream for point lookup with a
+lookup function that iteratively generates the point stream and returns the
+index, storing no data about it. We'd be trading processor time to handle yet
+larger input.
+
+We'd still run into issues caused by the ArrayBuffer[ArrayBuffer[Int]] for
+storing neighbour values. But, worst case, if n is the ring of the spiral memory
+we have (2n+1)**2 - (2n-1)**2 neighbour sets to keep track of, and at most 8
+neighbour values per set. Storing 8*((2n+1)**2 - (2n-1)**2) values, even with
+overhead for the ArrayBuffers should be significantly less than the (2n+1)**2
+values you need to store to keep track of the entire memory space to a given
+ring.
+

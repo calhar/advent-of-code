@@ -1,0 +1,7 @@
+I think the main reason that my solution for problem 2 ended up relatively ugly
+here is due to trying to get the proper n*(n-1)/2 runtime rather than n*(n-1)
+from comparing every element with every other element.
+
+I really need to get better about thinking in terms of elegant sequence
+manipulations rather than trying to efficiently recurse my way through the
+problem
