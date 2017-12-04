@@ -1,0 +1,24 @@
+Todays problems were frustratingly simple, to the point where I was annoyed that
+after 4 days with the language a nice one didn't immediately spring to mind to
+solve part 1.
+
+That aside I'm reasonably pleased with the initial solutions for both part 1
+and part 2. Although part 2 didn't need a custom containsAnagram checker,
+reusing the valid function from part 1 and doing
+
+valid(phrases.map(_.sorted))
+
+would have done the job better I think.
+
+The alternative solutions I later produced are nice, but miss out on an obvious
+check for valid passphrases using
+
+phrases.distinct == phrases
+
+Additionally, a better counting solution than (for comprehension).filter.size
+would have been
+
+passphrases.count((passphrase) => {
+  val phrases = passphrase.split(" ").toList
+  phrases.distinct == phrases
+})
