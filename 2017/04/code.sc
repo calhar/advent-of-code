@@ -1,5 +1,8 @@
+import scala.annotation.tailrec
+
 object Passphrase {
   def valid(phrases: List[String]) = {
+    @tailrec
     def recurValid(phrases: List[String], acc: List[Boolean]): List[Boolean] =
       phrases match {
         case Nil => acc
