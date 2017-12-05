@@ -12,8 +12,10 @@ while (acc < instructions.length) {
 }
 
 Pitfalls I ran in to trying to do it the non-obvious way:
-  - foldLeft and scanLeft are not fit for purpose here. As far as I can tell
-    I need a separate variable to hold the accumulated value
+  - Ignore that idiocy about scanLeft not being fit for purpose here. I'm
+    apparently just terrible. However, the way that I implement this using an
+    array and indexWhere makes it difficult to get it working, as scanLeft will
+    run the next loop cycle before running the check for that cycle.
   - Starting with Stream.from(0) partly because I considered having map return
     a tuple (step, acc), but also because I don't know the built ins well
     enough and didn't know Iterator supported indexOf and indexWhere
