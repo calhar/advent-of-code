@@ -1,5 +1,8 @@
 object Jumps {
-  def run(instructions: Array[Int]) {
+  def run(instList: List[Int]) {
+    val instructions = new Array[Int](instList.length)
+    instList.copyToArray(instructions)
+
     var acc = 0
     val jumps = Iterator.continually(0).map((_) => {
       val jump = instructions(acc)
@@ -14,12 +17,9 @@ object Jumps {
   def main(args: Array[String]) {
     val data = scala.io.Source.stdin.getLines
 
-    val intData = data.map((line) =>
+    val instList = data.map((line) =>
         line.toInt).toList
 
-    val instructions = new Array[Int](intData.length)
-    intData.copyToArray(instructions)
-
-    run(instructions)
+    run(instList)
   }
 }
