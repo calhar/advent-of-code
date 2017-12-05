@@ -1,0 +1,28 @@
+The code I've produced here is probably not the most natural solution (a while
+loop), but I wanted to play around with the language tools a little since I'm
+not competing for time and I didn't want to just produce the trivial answer of
+
+var steps = 0
+var acc = 0
+while (acc < instructions.length) {
+  steps += 1
+  val jump = instructions[acc]
+  instructions[acc] += 1 // or (if (jump >= 3) -1 else 1) for problem 2
+  acc += jump
+}
+
+Pitfalls I ran in to trying to do it the non-obvious way:
+  - foldLeft and scanLeft are not fit for purpose here. As far as I can tell
+    I need a separate variable to hold the accumulated value
+  - Starting with Stream.from(0) partly because I considered having map return
+    a tuple (step, acc), but also because I don't know the built ins well
+    enough and didn't know Iterator supported indexOf and indexWhere
+  - Stream caused a ton of unnecessary memory use. It actually led to
+    ridiculously slow runtime and eventually an OutOfMemoryError. I can't
+    remember the exact error, but given the runtime when using Stream vs
+    Iterator I believe it was caused by the GC overhead being exceeded
+
+Lucky miss, it didn't occur to me that the program might exist the list by
+jumping to a negative index rather than an index beyond the program length.
+Although if it did I'd have found out pretty quick after it tried to iterate
+again and spat out an ArrayIndexOutOfBoundsException
