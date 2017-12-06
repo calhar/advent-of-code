@@ -11,8 +11,8 @@ object Reallocator {
     val (max, ind) = maxIndex(state)
     val quotient = max / state.length
     val remain = max % state.length
-    val stateChange = cycle(List.tabulate(remain)(_ => quotient + 1)
-      ++ List.tabulate(state.length - remain)(_ => quotient))
+    val stateChange = cycle((1 to remain).map(_ => quotient + 1).toList
+      ++ (1 to (state.length - remain)).map(_ => quotient))
       .drop((state.length - (ind + 1)) % state.length)
       .take(state.length)
       .toList
