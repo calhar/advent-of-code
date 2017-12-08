@@ -1,0 +1,4 @@
+This problem is really very simple, it's just parsing the instructions and
+handling them correctly. The more interesting way to implement this would be to
+generate scala expressions and evaluate them at runtime. But I wanted to do this
+the basic way before I went hunting down how to do eval(expr) in scala.
