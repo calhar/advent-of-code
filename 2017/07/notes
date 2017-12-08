@@ -1,0 +1,29 @@
+Oh wow did I make this harder than it had to be. The tokenising that I'm doing
+is an absolute mess and I've got a ton unnecessary logic to account for cases
+that I knew weren't occuring in my data set but wanted to handle for
+completeness sake (determining the error value when the root node is binary)
+
+There are still instances where determining the error value and the errored node
+are impossible though.
+
+Consider a tree of just a -> b, c. If b and c have unequal weights, we can't
+determine which node is actually in error.
+
+Then there's a lot of cases that map back to that arrangement.
+
+a -> b, c. b -> d, e. c -> f, g.
+If d == e, and f == g. Then the weights at b and c can be viewed as 
+b = b + constant1, c = c + constant2.
+
+Or if the tree goes,
+a -> b, c. b -> d. d -> e. c -> f, g.
+If f == g, then again the weights at b and c can be viewed as 
+b = b + constant1, c = c + constant2, and we can't determine what the actual
+error value is. Tell a lie, if the error value is a negative number with larger
+absolute value than node b, c, d, or e, then we can know for certain that the
+node is not in error.
+
+However, in this particular instance, supposing that we had a third node
+attached to a, h such that h.trueWeight == c.trueWeight or the difference in true
+weight between b and c ruled out c as the incorrect value. We would not be able
+to determine if it is b, d, e that is the node in error.
