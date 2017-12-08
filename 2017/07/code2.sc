@@ -1,3 +1,5 @@
+import scala.annotation.tailrec
+
 class Node(val id: String, val weight:Int, val kids: List[Node]) {
   val trueWeight: Int = weight + kids.map( _.trueWeight ).sum
 
@@ -14,6 +16,7 @@ object Towers {
   }
 
   def fixWrong(node: Node) {
+    @tailrec
     def findErrNode(node:Node, error:Int): Node = {
       val childWeights = node.kids.map(_.trueWeight)
       childWeights match {
