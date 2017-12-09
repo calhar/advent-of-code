@@ -5,7 +5,6 @@ object Groups {
   }
 
   def group(seq: Iterator[Char]): Int = {
-    var layer = 0
     val removed = seq.foldLeft(0)((r, c) =>{
       c match {
         case '<' => r + garbage(seq)

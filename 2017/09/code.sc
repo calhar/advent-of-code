@@ -4,15 +4,14 @@ object Groups {
   }
 
   def group(seq: Iterator[Char]): Int = {
-    var layer = 0
-    val score = seq.foldLeft(0)((s, c) =>{
+    val (score, _) = seq.foldLeft((0, 0))({case ((s, l), c) => {
       c match {
-        case '{' => {layer += 1; s + layer}
-        case '<' => {garbage(seq); s}
-        case '}' => {layer -= 1; s}
-        case c => s
+        case '{' => (s + l + 1, l + 1)
+        case '<' => {garbage(seq); (s, l)}
+        case '}' => (s, l - 1)
+        case c => (s, l)
       }
-    })
+    }})
     score
   }
 
