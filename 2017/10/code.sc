@@ -17,7 +17,7 @@ object Knots {
     val trueCycle = cycle(cycled).drop(cycled.length - skipped)
         .take(cycled.length).toList
 
-    println(trueCycle(0) * trueCycle(1))
+    println(trueCycle.take(2).product)
   }
 
   def main(args: Array[String]) {

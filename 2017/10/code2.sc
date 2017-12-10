@@ -26,10 +26,8 @@ object Knots {
     // dense hash
     val hash = trueCycle.sliding(16, 16)         // Split into 16 groups of 16
       .map(v => {                                // For each group
-        val h = v.foldLeft(0)(_ ^ _)             // Xor every member together
-          .toHexString                           // To Hex
-        (0 until 2 - h.length).map(_ => '0')     // Pad to 2 bytes with leading
-          .mkString + h                          // zero
+        v.reduce(_ ^ _)                          // Xor every member together
+          .formatted("%02x")
       }).mkString
 
     println(hash)
