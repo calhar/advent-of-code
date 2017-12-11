@@ -7,3 +7,10 @@ tuple seemed the obvious thing to do, having to do math.abs(point._1),
 math.abs(point._2), math.abs(point._3), seems quite ugly compared to the
 alternative of point.map(math.abs(_)) if the coordinates were stored in some
 sequence instead
+
+If I were to solve it without knowing about the many, very good articles on hex
+grids that exist, I would have gone for something like:
+
+3 axis coordinate system corresponding to north, northeast, northwest
+Process the list to get the distance travelled along these axes
+Compute the true distance based on those
