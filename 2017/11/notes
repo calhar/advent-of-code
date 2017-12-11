@@ -1,0 +1,9 @@
+Nothing really to say about these problems. If you know this article exists
+then hex grids are very simple
+-- https://www.redblobgames.com/grids/hexagons/
+
+Implementation wise, although representing the cube coordinates as a (x, y, z)
+tuple seemed the obvious thing to do, having to do math.abs(point._1),
+math.abs(point._2), math.abs(point._3), seems quite ugly compared to the
+alternative of point.map(math.abs(_)) if the coordinates were stored in some
+sequence instead
