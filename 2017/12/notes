@@ -1,0 +1,12 @@
+The obvious if you know about it solution to this is the fairly simple
+union-find algorithm. However, without knowing what part 2 would entail I
+thought it prudent to instead keep all of the data in a map of node -> links
+and operate on that instead.
+
+As it turned out, using union-find part 1 and 2 could be trivially written like
+so
+
+(0 until links.length).map(root(unions, _)).count(0)
+(0 until links.length).map(root(unions, _)).toSet.size
+
+I'll implement it properly eventually
