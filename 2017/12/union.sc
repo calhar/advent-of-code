@@ -24,8 +24,6 @@ object Pipes {
         linked.foldLeft(unions)((u, l) => union(u, prog, l))
       })
 
-
-    println(unions)
     val roots = (0 until links.length).map(id => root(unions, id))
     println(roots.count(_ == 0))
     println(roots.toSet.size)
