@@ -22,8 +22,6 @@ object Pipes {
         unions + (prog -> linked)
       })
 
-    
-    println(unionMap)
     val (_, groups) = Iterator.continually(0).scanLeft(((0 until links.length).toSet, 0))({
       case ((remaining, groups), _) => {
         remaining match {

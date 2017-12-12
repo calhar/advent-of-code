@@ -6,7 +6,6 @@ object Pipes {
         case nonempty => {
           val h = toVisit.head
           val next = unions(h).toSet &~ visited
-          println(h + " " + next)
           helper(unions, visited + h, toVisit.tail ++ next)
         }
       }
@@ -24,7 +23,6 @@ object Pipes {
       })
 
     
-    println(unionMap)
     println(countLinked(0, unionMap))
   }
 
