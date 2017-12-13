@@ -1,0 +1,5 @@
+This is a pretty easy problem. Improvements would probably be to use
+List[Tuple2[Int, Int]], rather than List[Vector[Int]].
+
+Something is screaming at me that the solution for part 2 could be improved.
+I'll see if I can find it.
