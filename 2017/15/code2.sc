@@ -5,7 +5,7 @@ class Generator(private val factor: Int,
   def next(): Int = {
     do {
       value = (value * factor) % Int.MaxValue
-    } while (value % multiple != 0)
+    } while ((value & (multiple - 1)) != 0)
     value.toInt
   }
 }
