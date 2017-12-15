@@ -1,0 +1,22 @@
+The first problem to iterate on the results of previous days. Assuming you've
+completed day 10, part 1 is trivial, just reuse the Knot Hash from day 10,
+generate 128 hashes with seeds made by concatenating your input with
+"-0".."-127".
+
+Getting the binary output can be done in a couple of ways, you could map
+characters in the hash to binary strings, '0' -> "0000", '1' -> "0001", etc.
+You could convert the hex output to an integer and bit shift to extract the
+bits.
+Or you could make use of the implicit conversion between Int and RichInt, and
+do Integer.parseInt(hex, 16).toBinaryString, and then pad leading zeroes.
+
+Once you have the hashes in binary it's easy to count the number of '1's in the
+hash.
+
+Part 2 reuses the union-find algorithm from day 12. Although another
+implementation would be to pick a used square, add the neighbours to the group
+if they are used and not already in the group, and then add the used neighbours
+to a queue before recursing using the location on the top of the stack. This
+gives you a group, so pick a new used square that isn't in a group and search
+again. Basically repeated depth or breadth first searches to discover all the
+groups.
