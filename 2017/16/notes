@@ -4,7 +4,12 @@ the 1 billion repetitions of the state machine is a little more difficult.
 My initial solution was to run the state machine 1000 times, figure out the
 transform from initial state => 1000 dances, repeat that transform 1000 times to
 get the transform from initial state => 1 million dances, and repeat that 1000
-times to get 1 billion dances.
+times to get 1 billion dances. I went in cycles of 1e3 because I couldn't be
+bothered to do exponentiation by squaring properly. Worst case though, you
+would only need to calculate the results of 43 transforms (1e9 can be
+represented with using 30bits, you need to calculate the transform for all those
+powers or 2 and actualy apply the transforms for which the bit is 1. 1e9 has 13
+'1's in its binary representation) rather than the 3000 I did. 
 
 This didn't work because I'm an idiot and didn't realise that due to the Partner
 operation in the state machine, you can't just repeatedly apply the transform
@@ -15,3 +20,25 @@ such as this, there has to be some other trick. Which is to find a repeated
 pattern in the dance. Once you know the cycle in the dance, you can easily
 calculate what the state will look like after any number of repetitions of the
 dance.
+
+As has been pointed out in [the solutions thread]
+(https://https://www.reddit.com/r/adventofcode/comments/7k572l/2017_day_16_solutions/)
+the partner operation can be applied entirely separately from the spin and
+exchange operations, and the outcome of all the partner swaps for the sequence
+can be represented as a transform.
+
+A dance can be represented by applying two different transforms to the
+dancers, the first a position based transform, the second an id based transform.
+
+Due to the independent nature of these two transforms they can be applied in any
+order. Two dances could be handled as
+idTransform x posTransform x idTransform x posTransform x initDancers
+OR
+idTransform x idTransform x posTransform x posTransform x initDancers
+
+So we can find the values of pow(idTransform, 1e9) and pow(posTransform, 1e9)
+as described above using either exponentiation by squaring or scaling up by 1000
+each time.
+
+Still, that's two ways I've failed to properly understand the partner operation
+and its interaction with the problem. Disappointing.
