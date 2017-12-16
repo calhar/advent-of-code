@@ -1,0 +1,17 @@
+Part 1 is simple, just a state machine. Part 2 where you have to optimise away
+the 1 billion repetitions of the state machine is a little more difficult.
+
+My initial solution was to run the state machine 1000 times, figure out the
+transform from initial state => 1000 dances, repeat that transform 1000 times to
+get the transform from initial state => 1 million dances, and repeat that 1000
+times to get 1 billion dances.
+
+This didn't work because I'm an idiot and didn't realise that due to the Partner
+operation in the state machine, you can't just repeatedly apply the transform
+after one full sequence to get the transform after n sequences.
+
+Anyway, because running the dance 1 billion times is unfeasible for a puzzle
+such as this, there has to be some other trick. Which is to find a repeated
+pattern in the dance. Once you know the cycle in the dance, you can easily
+calculate what the state will look like after any number of repetitions of the
+dance.
