@@ -1,0 +1,10 @@
+An enjoyable puzzle. The solution is rather simple conceptually, so I took the
+opportunity to write some probably terrible code as I experimented with some
+features I've not yet tried like implicit classes.
+
+My solution makes a few different (probably terrible assumptions), that corners
+are always marked with '+' and never a letter, and that a '+' always has 2
+branching paths.
+
+The newSym match is really messy and I'm unpleased in general with the traverse
+function, I'll have a look at refactoring it tomorrow.

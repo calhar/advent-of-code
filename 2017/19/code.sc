@@ -33,7 +33,7 @@ object Tubes {
     
     val newSym =
       if (checkBounds(newLoc, map)) map(newLoc._1)(newLoc._2)
-      else packet.curSym
+      else ' '
 
     val (active, newDir, letters): (Boolean, (Int, Int), String) = if (newSym != packet.curSym) {
       newSym match {
