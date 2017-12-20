@@ -1,0 +1,19 @@
+Another really fun challenge, originally for part 1 I just found the positions
+at step 1billion. But given that S = 1/2*a*t^2 + v*t + p, as we approach
+infinite time, acceleration is the dominant factor for the distance from
+(0,0,0). As a result we can take the particles with the minimum acceleration,
+and in the instance that we have multiple minimums, find the location at
+some large step. Significantly reducing the amount of work we must do.
+
+Part 2, can be handled in two ways, although one is a little untidy.
+One way is to move through each step for the simulation, finding collisions and
+removing them as you go. The problem here is that it's unclear at any given step
+iteration how many particles are still on collision courses.
+
+The second way is how I have implemented it, finding the root of the equation
+describing the distance between particles at any given time. A positive root at
+time t is a valid collision. Compute the collisions between every pair of
+particles and group collisions by time
+We step through the collision groups, removing invalid collisions and then
+applying the collision to the remaining particles. Repeat until you have no more
+collision groups.
