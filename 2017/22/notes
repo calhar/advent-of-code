@@ -1,0 +1,4 @@
+Part 1 is the finite state automata Langton's Ant, while part 2 is a variant.
+Implementation isn't exactly difficult. I thought this might be another one
+where we have to optimise our way out of a horrible runtime, but 10 million
+iterations are handled in ~6s on my laptop.
