@@ -36,12 +36,13 @@ object Virus {
 
   def run(in: List[String]) {
     val (xOff, yOff) = (in.length / 2, in.head.length / 2)
-    val initMap = Map[(Int, Int), Char]().withDefaultValue('.')
-    in.zipWithIndex.flatMap({
-      case (row, idx) => row.zipWithIndex.map({
-        case (c, idy) => (idx - xOff, idy - yOff) -> c
-      })
-    }).foreach {initMap += _}
+    val initMap =
+      Map[(Int, Int), Char]().withDefaultValue('.') ++= 
+        in.zipWithIndex.flatMap({
+          case (row, idx) => row.zipWithIndex.map({
+            case (c, idy) => (idx - xOff, idy - yOff) -> c
+          })
+        })
 
     val (mapState, bursts) = Iterator.iterate((MapState(initMap, (0, 0), (-1, 0)), 0))({
       case (map, bursts) => {
