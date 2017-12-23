@@ -1,0 +1,6 @@
+b = 107900
+c = 124900
+for (i = b to c; i+=17) {
+  if (!isPrime(i))
+    h += 1
+}
