@@ -1,0 +1,3 @@
+Simple-ish breadth or depth first search to find all possible bridge
+combinations. I'm really unhappy with the code for my extendBridges function and
+will be refactoring it to not be a shambolic mess.
