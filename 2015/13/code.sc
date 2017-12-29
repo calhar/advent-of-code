@@ -5,21 +5,36 @@ object Dinner {
     ((person1, person2), (modify match {case "gain" => 1 case "lose" => -1}) * amount.toInt)
   }
 
-  def run(relationStrings: Iterator[String]) {
-    val relationsMap = relationStrings.map(parseRelation).toMap
-    val guests = relationsMap.keys.flatMap(pair => List(pair._1, pair._2))
+  def getSeatingValue(seating: List[String], relations: Map[(String, String), Int]): Int = {
+    (seating :+ seating.head).sliding(2)
+    .map(pair =>
+      relations((pair(0), pair(1))) + relations((pair(1), pair(0)))
+    ).sum
 
-    val bestArrange = guests.toList.tail
+  }
+
+  def getBestArrangement(guests: Set[String], relations: Map[(String, String), Int]): List[String] = {
+    guests.toList.tail
     .permutations
     .map(l => l :+ guests.head)
-    .map(l => 
-      (l :+ l.head).sliding(2)
-      .map(pair =>
-        relationsMap((pair(0), pair(1))) + relationsMap((pair(1), pair(0)))
-      ).sum
-    ).max
+    .maxBy(l => 
+      getSeatingValue(l, relations)
+    )
+  }
 
-    println(bestArrange)
+  def run(relationStrings: Iterator[String]) {
+    val relationsMap = relationStrings.map(parseRelation).toMap
+    val guests = relationsMap.keys.flatMap(pair => List(pair._1, pair._2)).toSet
+
+    val bestArrange = getBestArrangement(guests, relationsMap)
+    println(getSeatingValue(bestArrange, relationsMap))
+
+    val relationsPlus = relationsMap ++
+      guests.flatMap(guest => List((guest, "me") -> 0, ("me", guest) -> 0))
+        .toMap
+    val guestsPlus = guests + "me"
+    val bestArrangePlus = getBestArrangement(guestsPlus, relationsPlus)
+    println(getSeatingValue(bestArrangePlus, relationsPlus))
   }
 
   def main(args: Array[String]) {
