@@ -1,0 +1,16 @@
+Day 1 is simple as usual, took a bit to get back into the swing of scala though.
+
+Part 1 is just summing the values
+
+Part 2 is checking for states that we have already seen. scanLeft and find
+should handle this in O(n). Broadly though what we want is
+
+val seenFreqs = Set(0)
+val seen = false
+val cycledFreqs = cycle(frequencies)
+val curFreq = 0
+while !seen:
+  curFreq += cycledFreqs.next
+  seen = seenFreqs(curFreq)
+  seenFreqs = seenFreqs + curFreq
+
