@@ -1,4 +1,6 @@
-#!/usr/bin/env scala
+#!/bin/sh
+exec scala -classpath "bin" "$0" "$@"
+!#
 
 import java.time.{LocalDate, ZoneId}
 import java.time.format.DateTimeFormatterBuilder
@@ -27,7 +29,7 @@ object Start extends App {
   val inputFile = new File(subDir + "/input.txt")
   inputFile.createNewFile
 
-  val inputURL = "http://adventofcode.com/" +
+  val inputURL = "https://adventofcode.com/" +
       adventTime.getYear +
       "/day/" +
       adventTime.getDayOfMonth +
