@@ -16,3 +16,7 @@ have 2 or more differences.
 
 Once this is found it's just a matter of filtering for the characters that are
 equal.
+
+Another solution would be to get the list of characters that are equivalent
+between every pair, and find the common character list with
+length == pairLength - 1
