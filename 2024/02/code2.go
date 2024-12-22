@@ -54,27 +54,48 @@ func absDiffInt(x int, y int) int {
 	return y - x
 }
 
-func isSafe(row []int, increasing bool) bool {
-	safe := true
-	for i, v := range row[1:] {
-		diff := absDiffInt(v, row[i])
-		if diff < 1 || diff > 3 {
-			safe = false
-			break
+func safeStep(increasing bool, cur int, prev int) bool {
+	diff := absDiffInt(cur, prev)
+	if diff < 1 || diff > 3 {
+		return false
+	}
+	if increasing {
+		if cur <= prev {
+			return false
 		}
-		if increasing {
-			if v <= row[i] {
-				safe = false
-				break
+	} else {
+		if cur >= prev {
+			return false
+		}
+	}
+	return true
+}
+
+func isSafe(row []int, increasing bool) bool {
+	errorAt := -1
+	maybeSkip := false
+	for i, v := range row[1:] {
+		if maybeSkip {
+			if !safeStep(increasing, v, row[i]) && !safeStep(increasing, v, row[i-1]) {
+				return false
+			} else {
+				maybeSkip = false
 			}
-		} else {
-			if v >= row[i] {
-				safe = false
-				break
+		} else if errorAt != -1 && errorAt == i-1 {
+			if !safeStep(increasing, v, row[i-1]) {
+				return false
+			}
+		} else if !safeStep(increasing, v, row[i]) {
+			if errorAt != -1 {
+				return false
+			}
+			errorAt = i
+			if i == 0 || safeStep(increasing, v, row[i-1]) {
+				maybeSkip = true
 			}
 		}
 	}
-	return safe
+	return true
 }
 
 func main() {
@@ -83,22 +104,9 @@ func main() {
 	safeReports := 0
 	for _, report := range reports {
 		increasing := isIncreasing(report)
-		if isSafe(report[1:], increasing) {
+		newSafe := isSafe(report, increasing)
+		if newSafe {
 			safeReports++
-			continue
-		}
-		if isSafe(report[:len(report)-1], increasing) {
-			safeReports++
-			continue
-		}
-		for i := 1; i < len(report)-1; i++ {
-			altReport := make([]int, 0, len(report)-1)
-			altReport = append(altReport, report[:i]...)
-			altReport = append(altReport, report[i+1:]...)
-			if isSafe(altReport, increasing) {
-				safeReports++
-				break
-			}
 		}
 	}
 
