@@ -2,14 +2,13 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
-	"log"
 	"os"
-	"strconv"
-	"strings"
 )
 
 type set map[int]bool
+type rules map[int]set
 
 func intersect(set1 set, set2 set) set {
 	intersection := make(set)
@@ -24,10 +23,10 @@ func intersect(set1 set, set2 set) set {
 	return intersection
 }
 
-func validUpdate(validChains map[int]set, update []int) bool {
+func validUpdate(rules rules, update []int) bool {
 	encountered := make(set)
 	for _, val := range update {
-		invalidAfter := validChains[val]
+		invalidAfter := rules[val]
 		intersection := intersect(encountered, invalidAfter)
 		if len(intersection) > 0 {
 			return false
@@ -37,8 +36,8 @@ func validUpdate(validChains map[int]set, update []int) bool {
 	return true
 }
 
-func buildValidLinksMap(scanner *bufio.Scanner) map[int]set {
-	out := make(map[int]set)
+func buildValidLinksMap(scanner *bufio.Scanner) rules {
+	out := make(rules)
 	for scanner.Scan() {
 		text := scanner.Text()
 		if text == "" {
@@ -67,31 +66,26 @@ func buildUpdates(scanner *bufio.Scanner) [][]int {
 		if text == "" {
 			break
 		}
-		tmp := strings.Split(text, ",")
-		update := make([]int, 0, len(tmp))
-		for _, raw := range tmp {
-			v, err := strconv.Atoi(raw)
-			if err != nil {
-				log.Print(err)
-				os.Exit(1)
-			}
-			update = append(update, v)
-		}
+		var update []int
+		json.Unmarshal([]byte("["+text+"]"), &update)
 		out = append(out, update)
 	}
 	return out
 }
 
-func main() {
+func parseData() (rules, [][]int) {
 	scanner := bufio.NewScanner(os.Stdin)
-
-	validChains := buildValidLinksMap(scanner)
-
+	rules := buildValidLinksMap(scanner)
 	updates := buildUpdates(scanner)
+	return rules, updates
+}
+
+func main() {
+	rules, updates := parseData()
 
 	total := 0
 	for _, update := range updates {
-		if validUpdate(validChains, update) {
+		if validUpdate(rules, update) {
 			total += update[len(update)/2]
 		}
 	}

@@ -2,14 +2,13 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
-	"log"
 	"os"
-	"strconv"
-	"strings"
 )
 
 type set map[int]bool
+type rules map[int]set
 
 func intersect(set1 set, set2 set) set {
 	intersection := make(set)
@@ -24,7 +23,7 @@ func intersect(set1 set, set2 set) set {
 	return intersection
 }
 
-func validUpdate(validChains map[int]set, update []int) bool {
+func validUpdate(validChains rules, update []int) bool {
 	encountered := make(set)
 	for _, val := range update {
 		invalidAfter := validChains[val]
@@ -37,8 +36,8 @@ func validUpdate(validChains map[int]set, update []int) bool {
 	return true
 }
 
-func buildValidLinksMap(scanner *bufio.Scanner) map[int]set {
-	out := make(map[int]set)
+func buildValidLinksMap(scanner *bufio.Scanner) rules {
+	out := make(rules)
 	for scanner.Scan() {
 		text := scanner.Text()
 		if text == "" {
@@ -60,9 +59,9 @@ func buildValidLinksMap(scanner *bufio.Scanner) map[int]set {
 	return out
 }
 
-func buildIsAfterMap(validLinks map[int]set) map[int]set {
-	out := make(map[int]set)
-	for k, links := range validLinks {
+func buildInvertedRules(validRules rules) rules {
+	out := make(rules)
+	for k, links := range validRules {
 		for link := range links {
 			if _, ok := out[link]; !ok {
 				out[link] = make(set)
@@ -81,22 +80,14 @@ func buildUpdates(scanner *bufio.Scanner) [][]int {
 		if text == "" {
 			break
 		}
-		tmp := strings.Split(text, ",")
-		update := make([]int, 0, len(tmp))
-		for _, raw := range tmp {
-			v, err := strconv.Atoi(raw)
-			if err != nil {
-				log.Print(err)
-				os.Exit(1)
-			}
-			update = append(update, v)
-		}
+		var update []int
+		json.Unmarshal([]byte("["+text+"]"), &update)
 		out = append(out, update)
 	}
 	return out
 }
 
-func correctUpdate(update []int, isAfterMap map[int]set) []int {
+func correctUpdate(update []int, inverseRules rules) []int {
 	correct := make([]int, 0, len(update))
 	values := make(set)
 	for _, value := range update {
@@ -105,7 +96,7 @@ func correctUpdate(update []int, isAfterMap map[int]set) []int {
 	for len(values) > 0 {
 		var next int
 		for value, _ := range values {
-			if len(intersect(values, isAfterMap[value])) == 0 {
+			if len(intersect(values, inverseRules[value])) == 0 {
 				next = value
 				delete(values, value)
 				break
@@ -117,18 +108,21 @@ func correctUpdate(update []int, isAfterMap map[int]set) []int {
 	return correct
 }
 
-func main() {
+func parseData() (rules, [][]int) {
 	scanner := bufio.NewScanner(os.Stdin)
-
-	validChains := buildValidLinksMap(scanner)
-	isAfterMap := buildIsAfterMap(validChains)
-
+	rules := buildValidLinksMap(scanner)
 	updates := buildUpdates(scanner)
+	return rules, updates
+}
+
+func main() {
+	rules, updates := parseData()
+	inverseRules := buildInvertedRules(rules)
 
 	total := 0
 	for _, update := range updates {
-		if !validUpdate(validChains, update) {
-			corrected := correctUpdate(update, isAfterMap)
+		if !validUpdate(rules, update) {
+			corrected := correctUpdate(update, inverseRules)
 			total += corrected[len(corrected)/2]
 		}
 	}
